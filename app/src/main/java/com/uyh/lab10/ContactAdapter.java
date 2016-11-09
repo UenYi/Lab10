@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import java.util.List;
 import java.util.zip.Inflater;
 
 /**
@@ -13,25 +16,27 @@ import java.util.zip.Inflater;
  */
 public class ContactAdapter extends BaseAdapter {
 
-    private String[] names, phones;
+    private List<String> names, phones;
     private Context context;
     private LayoutInflater inflater;
+    private EditText inputText;
 
-    public ContactAdapter(MainActivity mainActivity,String[] names, String[] phones){
-        this.names=names;
-        this.phones=phones;
-        this.context=mainActivity;
-        this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public ContactAdapter(MainActivity mainActivity, List<String> names, List<String> phones, EditText inputText) {
+        this.names = names;
+        this.phones = phones;
+        this.context = mainActivity;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.inputText = inputText;
     }
 
     @Override
     public int getCount() {
-        return names.length;
+        return names.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return names[i];
+        return names.get(i);
     }
 
     @Override
@@ -40,9 +45,21 @@ public class ContactAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        View rowView = inflater.inflate();
+    public View getView(final int position, View view, ViewGroup viewGroup) {
+        View rowView = inflater.inflate(R.layout.contact_list, null);
+        TextView nameTv = (TextView) rowView.findViewById(R.id.nameOutput);
+        final TextView phoneTv = (TextView) rowView.findViewById(R.id.phoneOutput);
 
-        return null;
+        nameTv.setText(names.get(position));
+        phoneTv.setText(phones.get(position));
+
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                inputText.setText(phones.get(position));
+            }
+        });
+
+        return rowView;
     }
 }
