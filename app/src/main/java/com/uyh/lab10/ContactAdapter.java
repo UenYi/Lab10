@@ -1,6 +1,7 @@
 package com.uyh.lab10;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import java.util.zip.Inflater;
  * Created by 1031002 on 11/9/2016.
  */
 public class ContactAdapter extends BaseAdapter {
-
+    private final String TAG = getClass().getName();
     private List<String> names, phones;
     private Context context;
     private LayoutInflater inflater;
@@ -46,10 +47,13 @@ public class ContactAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View view, ViewGroup viewGroup) {
+        Log.d(TAG,"getView Called.");
         View rowView = inflater.inflate(R.layout.contact_list, null);
         TextView nameTv = (TextView) rowView.findViewById(R.id.nameOutput);
         final TextView phoneTv = (TextView) rowView.findViewById(R.id.phoneOutput);
 
+        Log.d(TAG,"getView names: " + names.get(position));
+        Log.d(TAG,"getView phones: " + phones.get(position));
         nameTv.setText(names.get(position));
         phoneTv.setText(phones.get(position));
 
